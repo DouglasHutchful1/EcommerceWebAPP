@@ -1,10 +1,66 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm">
+    <div class="container py-5">
+        <h1 class="display-4 fw-bold">Discover Amazing Products</h1>
+        <p class="fs-5">Shop top categories and exclusive deals. Delivered to your doorstep.</p>
+        <a class="btn btn-primary btn-lg" href="/Products">Start Shopping</a>
+    </div>
+</div>
+
+<div class="container my-5">
+    <h2 class="mb-4 text-center">Browse by Category</h2>
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <img src="https://via.placeholder.com/300x200?text=Electronics" class="card-img-top" alt="Electronics">
+                <div class="card-body">
+                    <h5 class="card-title">Electronics</h5>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <img src="https://via.placeholder.com/300x200?text=Fashion" class="card-img-top" alt="Fashion">
+                <div class="card-body">
+                    <h5 class="card-title">Fashion</h5>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <img src="https://via.placeholder.com/300x200?text=Home+%26+Living" class="card-img-top" alt="Home & Living">
+                <div class="card-body">
+                    <h5 class="card-title">Home & Living</h5>
+                    <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <h2 class="mb-4 text-center">Featured Products</h2>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        @* Static cards for now – will load from DB later *@
+        @for (int i = 1; i <= 4; i++)
+        {
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm">
+                    <img src="https://via.placeholder.com/300x200?text=Product+@i" class="card-img-top" alt="Product @i">
+                    <div class="card-body">
+                        <h5 class="card-title">Product Name @i</h5>
+                        <p class="card-text">$@(19.99 + i * 5)</p>
+                        <a href="#" class="btn btn-sm btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

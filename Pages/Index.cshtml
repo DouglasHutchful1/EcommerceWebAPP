@@ -8,7 +8,7 @@
     <div class="container py-5">
         <h1 class="display-4 fw-bold">Discover Amazing Products</h1>
         <p class="fs-5">Shop top categories and exclusive deals. Delivered to your doorstep.</p>
-        <a class="btn btn-primary btn-lg" href="/Products">Start Shopping</a>
+<a class="btn btn-dark btn-lg rounded-pill" href="/Products">Start Shopping</a>
     </div>
 </div>
 
@@ -17,28 +17,28 @@
     <div class="row text-center">
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm">
-                <img src="https://via.placeholder.com/300x200?text=Electronics" class="card-img-top" alt="Electronics">
+                <img src="https://plus.unsplash.com/premium_photo-1679079456083-9f288e224e96?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Electronics">
                 <div class="card-body">
                     <h5 class="card-title">Electronics</h5>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
+                    <a href="#" class="btn btn-outline-dark btn-sm rounded-pill">Explore</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm">
-                <img src="https://via.placeholder.com/300x200?text=Fashion" class="card-img-top" alt="Fashion">
+                <img src="https://plus.unsplash.com/premium_photo-1664202526559-e21e9c0fb46a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
                 <div class="card-body">
                     <h5 class="card-title">Fashion</h5>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
+                    <a href="#" class="btn btn-outline-dark btn-sm rounded-pill">Explore</a>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-4">
             <div class="card border-0 shadow-sm">
-                <img src="https://via.placeholder.com/300x200?text=Home+%26+Living" class="card-img-top" alt="Home & Living">
+                <img src="https://plus.unsplash.com/premium_photo-1723200799213-e6cff0c3e641?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Home & Living">
                 <div class="card-body">
                     <h5 class="card-title">Home & Living</h5>
-                    <a href="#" class="btn btn-outline-primary btn-sm">Explore</a>
+                    <a href="#" class="btn btn-outline-dark btn-sm rounded-pill">Explore</a>
                 </div>
             </div>
         </div>
@@ -48,16 +48,26 @@
 <div class="container my-5">
     <h2 class="mb-4 text-center">Featured Products</h2>
     <div class="row row-cols-1 row-cols-md-4 g-4">
-        @* Static cards for now – will load from DB later *@
+      
+        @{
+            var imageUrls = new[]
+            {
+                "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=998&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                "https://images.unsplash.com/photo-1662384197911-e82189f4dc60?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                "https://images.unsplash.com/photo-1605455699691-abb8c7c8d34a?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            };
+        }
+
         @for (int i = 1; i <= 4; i++)
         {
             <div class="col">
                 <div class="card h-100 border-0 shadow-sm">
-                    <img src="https://via.placeholder.com/300x200?text=Product+@i" class="card-img-top" alt="Product @i">
+                    <img src="@imageUrls[i - 1]" class="card-img-top" alt="Product @i" />
                     <div class="card-body">
                         <h5 class="card-title">Product Name @i</h5>
                         <p class="card-text">$@(19.99 + i * 5)</p>
-                        <a href="#" class="btn btn-sm btn-primary">Add to Cart</a>
+                        <a href="#" class="btn btn-sm btn-dark rounded-pill" >Add to Cart</a>
                     </div>
                 </div>
             </div>

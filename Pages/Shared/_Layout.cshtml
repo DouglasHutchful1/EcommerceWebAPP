@@ -53,11 +53,11 @@
            
             <form class="d-flex me-3" role="search">
                 <input class="form-control form-control-sm me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-sm btn-outline-primary" type="submit">Search</button>
+                <button class="btn btn-sm btn-outline-dark rounded-pill" type="submit">Search</button>
             </form>
 
          
-            <a href="/Cart" class="btn btn-sm btn-outline-secondary position-relative me-2">
+            <a href="/Cart" class="btn btn-sm btn-outline-secondary position-relative me-2 rounded-pill">
                 <i class="bi bi-cart3"></i>
                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     3
@@ -67,7 +67,7 @@
 
          
             <div class="dropdown">
-                <a class="btn btn-sm btn-outline-dark dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="btn btn-sm btn-outline-dark dropdown-toggle rounded-pill" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i> Account
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
@@ -85,11 +85,53 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Ecommerce - <a asp-area="" asp-page="/Privacy">Privacy</a>
+   <footer class="bg-dark text-light pt-5 pb-4 mt-5">
+    <div class="container text-md-left">
+        <div class="row text-md-left">
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">DawgShop</h5>
+                <p>
+                    Your one-stop online shop for the latest in fashion, electronics, and home essentials.
+                </p>
+            </div>
+
+            <!-- Links -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Quick Links</h5>
+                <p><a href="/Products" class="text-light text-decoration-none">Products</a></p>
+                <p><a href="/Categories" class="text-light text-decoration-none">Categories</a></p>
+                <p><a href="/Cart" class="text-light text-decoration-none">Cart</a></p>
+                <p><a href="/Contact" class="text-light text-decoration-none">Contact</a></p>
+            </div>
+
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Contact</h5>
+                <p><i class="bi bi-geo-alt"></i> Accra,Ghana</p>
+                <p><i class="bi bi-envelope"></i> support@dawgshop.com</p>
+                <p><i class="bi bi-phone"></i> +233 XXXXXXXX</p>
+            </div>
+
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mt-3 text-center">
+                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Follow Us</h5>
+                <a class="btn btn-outline-light btn-floating m-1" href="#"><i class="bi bi-facebook"></i></a>
+                <a class="btn btn-outline-light btn-floating m-1" href="#"><i class="bi bi-twitter"></i></a>
+                <a class="btn btn-outline-light btn-floating m-1" href="#"><i class="bi bi-instagram"></i></a>
+                <a class="btn btn-outline-light btn-floating m-1" href="#"><i class="bi bi-linkedin"></i></a>
+            </div>
         </div>
-    </footer>
+
+        <hr class="mb-4" />
+
+        <div class="row align-items-center">
+            <div class="col-md-7 col-lg-8">
+                <p class="text-center text-md-start">
+                    © 2025 DawgShop
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

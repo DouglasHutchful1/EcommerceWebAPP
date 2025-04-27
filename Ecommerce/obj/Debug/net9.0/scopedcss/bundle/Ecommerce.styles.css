@@ -2,48 +2,92 @@
 /* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-a.navbar-brand[b-00bcrtis2p] {
+a.navbar-brand[b-n00nlzrgbj] {
   white-space: normal;
   text-align: center;
   word-break: break-all;
 }
 
-a[b-00bcrtis2p] {
-  color: #0077cc;
+a[b-n00nlzrgbj] {
+  color: #000000;
 }
 
-.btn-primary[b-00bcrtis2p] {
+@media (min-width: 992px) {
+  .navbar .dropdown:hover .dropdown-menu[b-n00nlzrgbj] {
+      display: block;
+      margin-top: 0;
+  }
+}
+
+
+.btn-primary[b-n00nlzrgbj] {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
-.nav-pills .nav-link.active[b-00bcrtis2p], .nav-pills .show > .nav-link[b-00bcrtis2p] {
+.nav-pills .nav-link.active[b-n00nlzrgbj], .nav-pills .show > .nav-link[b-n00nlzrgbj] {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
-.border-top[b-00bcrtis2p] {
+.border-top[b-n00nlzrgbj] {
   border-top: 1px solid #e5e5e5;
 }
-.border-bottom[b-00bcrtis2p] {
+.border-bottom[b-n00nlzrgbj] {
   border-bottom: 1px solid #e5e5e5;
 }
 
-.box-shadow[b-00bcrtis2p] {
+.box-shadow[b-n00nlzrgbj] {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
-button.accept-policy[b-00bcrtis2p] {
+button.accept-policy[b-n00nlzrgbj] {
   font-size: 1rem;
   line-height: inherit;
 }
 
-.footer[b-00bcrtis2p] {
+.btn-outline-dark:hover[b-n00nlzrgbj] {
+  background-color: #000;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+@media (min-width: 1200px){.container[b-n00nlzrgbj] {
+ max-width: max-content;
+}
+
+}
+
+.footer[b-n00nlzrgbj] {
   position: absolute;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
   line-height: 60px;
 }
+
+    /* For Desktop (>=768px) */
+    @media (min-width: 768px) {
+        #homeCarousel .carousel-item img[b-n00nlzrgbj] {
+            max-height: 150px; 
+            object-fit: fill; 
+        width: max-content;
+          }
+    }
+
+    /* For Larger Desktops  */
+    @media (min-width: 1200px) {
+        #homeCarousel .carousel-item img[b-n00nlzrgbj] {
+            
+            object-fit:fill; 
+       width: max-content;
+          }
+    }
+
+    /* For Mobile (<=767px) */
+    @media (max-width: 767.98px) {
+        #homeCarousel .carousel-item img[b-n00nlzrgbj] {
+            height: auto; 
+        }
+    }

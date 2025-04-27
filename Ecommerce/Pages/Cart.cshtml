@@ -1,0 +1,55 @@
+@page
+@model CartModel
+@{
+    ViewData["Title"] = "Your Cart";
+}
+
+<div class="container my-5">
+    <h1 class="mb-5 text-center">🛒 Your Shopping Cart</h1>
+
+    @if (Model.CartItems != null && Model.CartItems.Count > 0)
+    {
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="list-group">
+                    @foreach (var item in Model.CartItems)
+                    {
+                        <div class="list-group-item d-flex align-items-center shadow-sm mb-3 rounded">
+                            <img src="@item.ImageUrl" class="img-thumbnail me-3" style="width: 100px; height: 100px;" alt="@item.ProductName">
+                            <div class="flex-fill">
+                                <h5 class="mb-1">@item.ProductName</h5>
+                                <small class="text-muted">Price: $@item.Price</small>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <input type="number" class="form-control form-control-sm me-2" style="width: 70px;" value="@item.Quantity" min="1" />
+                                <span class="fw-bold me-3">$@(item.Price * item.Quantity)</span>
+                                <button class="btn btn-sm btn-danger rounded-pill">Remove</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm p-4">
+                    <h4>Cart Summary</h4>
+                    <hr />
+                    <p>Total Items: <strong>@Model.CartItems.Sum(x => x.Quantity)</strong></p>
+                    <p>Total Amount: <strong>$@Model.CartItems.Sum(x => x.Price * x.Quantity)</strong></p>
+                    <a href="/Checkout" class="btn btn-dark btn-lg w-100 rounded-pill mt-3">Proceed to Checkout</a>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <img src="https://images.unsplash.com/photo-1606813908859-35e305882cd1?crop=entropy&cs=tinysrgb&fit=crop&h=300&w=400" class="img-fluid mb-4" alt="Empty Cart" style="max-width: 300px;">
+            
+            <h2 class="mb-3">Your Cart is Empty</h2>
+            <p class="text-muted mb-4">Looks like you haven't added anything to your cart yet.</p>
+            
+            <a href="/Products" class="btn btn-primary btn-lg rounded-pill">Start Shopping</a>
+        </div>
+    }
+</div>

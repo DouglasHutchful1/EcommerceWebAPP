@@ -1,31 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\douglas.hutchful\\C#Proj\\Ecommerce\\Ecommerce.csproj": {}
+    "/home/douglas/EcommerceWebAPP/Ecommerce/Ecommerce.csproj": {}
   },
   "projects": {
-    "C:\\Users\\douglas.hutchful\\C#Proj\\Ecommerce\\Ecommerce.csproj": {
+    "/home/douglas/EcommerceWebAPP/Ecommerce/Ecommerce.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\douglas.hutchful\\C#Proj\\Ecommerce\\Ecommerce.csproj",
+        "projectUniqueName": "/home/douglas/EcommerceWebAPP/Ecommerce/Ecommerce.csproj",
         "projectName": "Ecommerce",
-        "projectPath": "C:\\Users\\douglas.hutchful\\C#Proj\\Ecommerce\\Ecommerce.csproj",
-        "packagesPath": "C:\\Users\\douglas.hutchful\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\douglas.hutchful\\C#Proj\\Ecommerce\\obj\\",
+        "projectPath": "/home/douglas/EcommerceWebAPP/Ecommerce/Ecommerce.csproj",
+        "packagesPath": "/home/douglas/.nuget/packages/",
+        "outputPath": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\douglas.hutchful\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/douglas/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -68,7 +62,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/douglas/.dotnet/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

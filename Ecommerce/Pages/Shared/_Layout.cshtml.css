@@ -11,6 +11,14 @@ a {
   color: #000000;
 }
 
+@media (min-width: 992px) {
+  .navbar .dropdown:hover .dropdown-menu {
+      display: block;
+      margin-top: 0;
+  }
+}
+
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -39,6 +47,17 @@ button.accept-policy {
   line-height: inherit;
 }
 
+.btn-outline-dark:hover {
+  background-color: #000;
+  color: #fff;
+  transition: all 0.2s ease-in-out;
+}
+@media (min-width: 1200px){.container {
+ max-width: max-content;
+}
+
+}
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -46,3 +65,28 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+    /* For Desktop (>=768px) */
+    @media (min-width: 768px) {
+        #homeCarousel .carousel-item img {
+            max-height: 150px; 
+            object-fit: fill; 
+        width: max-content;
+          }
+    }
+
+    /* For Larger Desktops  */
+    @media (min-width: 1200px) {
+        #homeCarousel .carousel-item img {
+            
+            object-fit:fill; 
+       width: max-content;
+          }
+    }
+
+    /* For Mobile (<=767px) */
+    @media (max-width: 767.98px) {
+        #homeCarousel .carousel-item img {
+            height: auto; 
+        }
+    }

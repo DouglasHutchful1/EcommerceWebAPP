@@ -116,7 +116,6 @@ C:/Users/douglas.hutchful/C#Proj/Ecommerce/obj/Debug/net9.0/ref/Ecommerce.dll
 /home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/scopedcss/Pages/Shared/_Layout.cshtml.rz.scp.css
 /home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/scopedcss/bundle/Ecommerce.styles.css
 /home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/scopedcss/projectbundle/Ecommerce.bundle.scp.css
-/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-lugek5hnai.gz
 /home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/20orpprlfe-61n19gt1b8.gz
 /home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/itphxkcffk-fr7q2aak1r.gz
 /home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/s55j8g5w5i-bqjiyaj88i.gz
@@ -194,3 +193,5 @@ C:/Users/douglas.hutchful/C#Proj/Ecommerce/obj/Debug/net9.0/ref/Ecommerce.dll
 /home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/ref/Ecommerce.dll
 /home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/w0limnbnwb-dm17i57x1n.gz
 /home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/9vbb5g7n36-dm17i57x1n.gz
+/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-pd2ysqc7vz.gz
+/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/Ecommerce.csproj.AssemblyReference.cache

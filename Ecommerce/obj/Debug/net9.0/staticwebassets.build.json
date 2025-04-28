@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "396PtAoTCYmS5g7tF7h40lQKiDKHqYI6XewyRsn3djA=",
+  "Hash": "L6WxgL5/0eCn3csgKsm/TZHhb5txJDO4TyDmBRnr7cs=",
   "Source": "Ecommerce",
   "BasePath": "_content/Ecommerce",
   "Mode": "Default",
@@ -1130,12 +1130,12 @@
       "OriginalItemSpec": "/home/douglas/EcommerceWebAPP/Ecommerce/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map"
     },
     {
-      "Identity": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-lugek5hnai.gz",
+      "Identity": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-pd2ysqc7vz.gz",
       "SourceId": "Ecommerce",
       "SourceType": "Discovered",
       "ContentRoot": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/Ecommerce",
-      "RelativePath": "css/site#[.{fingerprint=lugek5hnai}]?.css.gz",
+      "RelativePath": "css/site#[.{fingerprint=pd2ysqc7vz}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -1144,8 +1144,8 @@
       "RelatedAsset": "/home/douglas/EcommerceWebAPP/Ecommerce/wwwroot/css/site.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "lb0jssabxu",
-      "Integrity": "n4te0btuR7bRk4mRh2N5HuBqCrDu5bjitpFCR/Qw63g=",
+      "Fingerprint": "qpt3lbv951",
+      "Integrity": "Lip+IOUPLQVfYzTMg1dnCq4vPfvhhSHoAdz4r2elQTs=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/home/douglas/EcommerceWebAPP/Ecommerce/wwwroot/css/site.css"
@@ -1417,8 +1417,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "lugek5hnai",
-      "Integrity": "zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD+cbo=",
+      "Fingerprint": "pd2ysqc7vz",
+      "Integrity": "c/sR7dCsLHDsC1attU6+Xn8wQLY52eN4NZzG5b4JFJs=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/site.css"
@@ -2729,12 +2729,12 @@
   "Endpoints": [
     {
       "Route": "css/site.css",
-      "AssetFile": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-lugek5hnai.gz",
+      "AssetFile": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-pd2ysqc7vz.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.003194888179"
+          "Quality": "0.002159827214"
         }
       ],
       "ResponseHeaders": [
@@ -2744,15 +2744,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "312"
+          "Value": "462"
         },
         {
           "Name": "ETag",
-          "Value": "\"n4te0btuR7bRk4mRh2N5HuBqCrDu5bjitpFCR/Qw63g=\""
+          "Value": "\"Lip+IOUPLQVfYzTMg1dnCq4vPfvhhSHoAdz4r2elQTs=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 25 Apr 2025 21:11:14 GMT"
+          "Value": "Sun, 27 Apr 2025 22:16:08 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2772,13 +2772,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD+cbo=\""
+          "Value": "W/\"c/sR7dCsLHDsC1attU6+Xn8wQLY52eN4NZzG5b4JFJs=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD+cbo="
+          "Value": "sha256-c/sR7dCsLHDsC1attU6+Xn8wQLY52eN4NZzG5b4JFJs="
         }
       ]
     },
@@ -2793,7 +2793,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "637"
+          "Value": "1017"
         },
         {
           "Name": "Content-Type",
@@ -2801,11 +2801,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD+cbo=\""
+          "Value": "\"c/sR7dCsLHDsC1attU6+Xn8wQLY52eN4NZzG5b4JFJs=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 25 Apr 2025 21:11:14 GMT"
+          "Value": "Sun, 27 Apr 2025 22:16:08 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2815,13 +2815,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD+cbo="
+          "Value": "sha256-c/sR7dCsLHDsC1attU6+Xn8wQLY52eN4NZzG5b4JFJs="
         }
       ]
     },
     {
       "Route": "css/site.css.gz",
-      "AssetFile": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-lugek5hnai.gz",
+      "AssetFile": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-pd2ysqc7vz.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2830,7 +2830,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "312"
+          "Value": "462"
         },
         {
           "Name": "Content-Type",
@@ -2838,11 +2838,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"n4te0btuR7bRk4mRh2N5HuBqCrDu5bjitpFCR/Qw63g=\""
+          "Value": "\"Lip+IOUPLQVfYzTMg1dnCq4vPfvhhSHoAdz4r2elQTs=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 25 Apr 2025 21:11:14 GMT"
+          "Value": "Sun, 27 Apr 2025 22:16:08 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2860,18 +2860,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-n4te0btuR7bRk4mRh2N5HuBqCrDu5bjitpFCR/Qw63g="
+          "Value": "sha256-Lip+IOUPLQVfYzTMg1dnCq4vPfvhhSHoAdz4r2elQTs="
         }
       ]
     },
     {
-      "Route": "css/site.lugek5hnai.css",
-      "AssetFile": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-lugek5hnai.gz",
+      "Route": "css/site.pd2ysqc7vz.css",
+      "AssetFile": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-pd2ysqc7vz.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.003194888179"
+          "Quality": "0.002159827214"
         }
       ],
       "ResponseHeaders": [
@@ -2881,15 +2881,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "312"
+          "Value": "462"
         },
         {
           "Name": "ETag",
-          "Value": "\"n4te0btuR7bRk4mRh2N5HuBqCrDu5bjitpFCR/Qw63g=\""
+          "Value": "\"Lip+IOUPLQVfYzTMg1dnCq4vPfvhhSHoAdz4r2elQTs=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 25 Apr 2025 21:11:14 GMT"
+          "Value": "Sun, 27 Apr 2025 22:16:08 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2909,13 +2909,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD+cbo=\""
+          "Value": "W/\"c/sR7dCsLHDsC1attU6+Xn8wQLY52eN4NZzG5b4JFJs=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lugek5hnai"
+          "Value": "pd2ysqc7vz"
         },
         {
           "Name": "label",
@@ -2923,12 +2923,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD+cbo="
+          "Value": "sha256-c/sR7dCsLHDsC1attU6+Xn8wQLY52eN4NZzG5b4JFJs="
         }
       ]
     },
     {
-      "Route": "css/site.lugek5hnai.css",
+      "Route": "css/site.pd2ysqc7vz.css",
       "AssetFile": "/home/douglas/EcommerceWebAPP/Ecommerce/wwwroot/css/site.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -2938,7 +2938,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "637"
+          "Value": "1017"
         },
         {
           "Name": "Content-Type",
@@ -2946,11 +2946,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD+cbo=\""
+          "Value": "\"c/sR7dCsLHDsC1attU6+Xn8wQLY52eN4NZzG5b4JFJs=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 25 Apr 2025 21:11:14 GMT"
+          "Value": "Sun, 27 Apr 2025 22:16:08 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2960,7 +2960,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lugek5hnai"
+          "Value": "pd2ysqc7vz"
         },
         {
           "Name": "label",
@@ -2968,13 +2968,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD+cbo="
+          "Value": "sha256-c/sR7dCsLHDsC1attU6+Xn8wQLY52eN4NZzG5b4JFJs="
         }
       ]
     },
     {
-      "Route": "css/site.lugek5hnai.css.gz",
-      "AssetFile": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-lugek5hnai.gz",
+      "Route": "css/site.pd2ysqc7vz.css.gz",
+      "AssetFile": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/compressed/ukstm540yu-pd2ysqc7vz.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -2983,7 +2983,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "312"
+          "Value": "462"
         },
         {
           "Name": "Content-Type",
@@ -2991,11 +2991,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"n4te0btuR7bRk4mRh2N5HuBqCrDu5bjitpFCR/Qw63g=\""
+          "Value": "\"Lip+IOUPLQVfYzTMg1dnCq4vPfvhhSHoAdz4r2elQTs=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Fri, 25 Apr 2025 21:11:14 GMT"
+          "Value": "Sun, 27 Apr 2025 22:16:08 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3013,7 +3013,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "lugek5hnai"
+          "Value": "pd2ysqc7vz"
         },
         {
           "Name": "label",
@@ -3021,7 +3021,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-n4te0btuR7bRk4mRh2N5HuBqCrDu5bjitpFCR/Qw63g="
+          "Value": "sha256-Lip+IOUPLQVfYzTMg1dnCq4vPfvhhSHoAdz4r2elQTs="
         }
       ]
     },

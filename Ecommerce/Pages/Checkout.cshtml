@@ -1,0 +1,54 @@
+@page
+@model Ecommerce.Pages.CheckoutModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="container my-5">
+    <h1 class="mb-4 text-center">Checkout</h1>
+
+    <form method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Billing Details</h4>
+                <div class="mb-3">
+                    <label asp-for="BillingName" class="form-label">Full Name</label>
+                    <input asp-for="BillingName" class="form-control rounded-pill" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="BillingAddress" class="form-label">Address</label>
+                    <input asp-for="BillingAddress" class="form-control rounded-pill" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="BillingCity" class="form-label">City</label>
+                    <input asp-for="BillingCity" class="form-control rounded-pill" />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="BillingPhone" class="form-label">Phone Number</label>
+                    <input asp-for="BillingPhone" class="form-control rounded-pill" />
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <h4>Order Summary</h4>
+                <ul class="list-group mb-3">
+                    @foreach (var item in Model.CartItems)
+                    {
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">@item.ProductName</h6>
+                                <small class="text-muted">Qty: @item.Quantity</small>
+                            </div>
+                            <span class="text-muted">$@(item.Quantity * item.Price)</span>
+                        </li>
+                    }
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (USD)</span>
+                        <strong>$@Model.TotalAmount</strong>
+                    </li>
+                </ul>
+                <button type="submit" class="btn btn-dark w-100 rounded-pill">Place Order</button>
+            </div>
+        </div>
+    </form>
+</div>

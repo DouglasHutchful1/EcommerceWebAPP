@@ -1,3 +1,4 @@
+using Ecommerce.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Data
@@ -13,5 +14,7 @@ namespace Ecommerce.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Vendor> Vendors { get; set; }
     }
 }

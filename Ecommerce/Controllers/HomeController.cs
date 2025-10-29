@@ -31,14 +31,11 @@ public class HomeController(EcommerceDbContext dbcon,ILogger<HomeController> log
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("Username", user.Username);
             HttpContext.Session.SetString("Email", user.Email);
-            return Ok(new { success = true,message = "Login successful",user.Id});
-
-        }
+            return RedirectToAction("Index", "Home");        }
         catch (Exception e)
         {
             logger.LogError(e,"error occured");
-            return StatusCode(500, new { message = "Error Occured,please try again later" });
-        }
+            return View("Login", new { Error = "Error occurred, please try again later" });        }
         
     }
     //method for handling resgistration

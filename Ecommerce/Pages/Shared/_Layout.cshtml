@@ -86,15 +86,41 @@
             </a>
 
             <div class="dropdown">
-                <a class="btn btn-sm btn-outline-dark dropdown-toggle rounded-pill" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle"></i> Account
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="/Login">Login</a></li>
-                    <li><a class="dropdown-item" href="/Register">Register</a></li>
-                    <li><hr class="dropdown-divider" /></li>
-                    <li><a class="dropdown-item" href="/Profile">My Profile</a></li>
-                </ul>
+                @{
+                    var username = Context.Session.GetString("Username");
+                }
+                
+                @if (!string.IsNullOrEmpty(username))
+                {
+                    <div class="dropdown">
+                        <a class="btn btn-sm btn-outline-dark dropdown-toggle rounded-pill" href="#" id="userDropdown" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> @username
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="/Profile">My Profile</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <form method="post" action="/Home/Logout">
+                                    <button class="dropdown-item" type="submit">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <div class="dropdown">
+                        <a class="btn btn-sm btn-outline-dark dropdown-toggle rounded-pill" href="#" id="userDropdown" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle"></i> Account
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
+                         <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a></li>
+
+                        </ul>
+                    </div>
+                }
+
             </div>
         </div>
     </div>
@@ -179,5 +205,143 @@
 </script>
 
     @await RenderSectionAsync("Scripts", required: false)
-</body>
+    
+    <script>
+    $(document).ready(function () {
+    
+        // -------- LOGIN SUBMIT ----------
+        $("#loginForm").on("submit", function (e) {
+            e.preventDefault();
+    
+            $.ajax({
+                url: "/Home/Login",
+                type: "POST",
+                data: {
+                    username: $("#loginUsername").val(),
+                    password: $("#loginPassword").val()
+                },
+                success: function (res) {
+                    if (res.success) {
+                        $("#loginError").text("");
+                        $("#loginModal").modal("hide");
+                        location.reload(); // reload to update navbar with username
+                    } else {
+                        $("#loginError").text(res.message || "Login failed");
+                    }
+                },
+                error: function (xhr) {
+                    const msg = xhr.responseJSON?.message || "Invalid login";
+                    $("#loginError").text(msg);
+                }
+            });
+        });
+    
+    
+        // -------- REGISTER SUBMIT ----------
+        $("#registerForm").on("submit", function (e) {
+            e.preventDefault();
+    
+            const data = {
+                Firstname: $("#regFirstname").val(),
+                Lastname: $("#regLastname").val(),
+                Username: $("#regUsername").val(),
+                Email: $("#regEmail").val(),
+                Password: $("#regPassword").val()
+            };
+    
+            $.ajax({
+                url: "/Home/Register",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(data),
+                success: function (res) {
+                    if (res.success) {
+                        $("#registerError").text("");
+                        $("#registerModal").modal("hide");
+                        alert("Registration successful! You can now log in.");
+                    } else {
+                        $("#registerError").text(res.message || "Registration failed");
+                    }
+                },
+                error: function (xhr) {
+                    const msg = xhr.responseJSON?.message || "Registration failed";
+                    $("#registerError").text(msg);
+                }
+            });
+        });
+    
+    });
+    </script>
+
+    <!-- ==================== LOGIN MODAL ==================== -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="loginModalLabel"><i class="bi bi-box-arrow-in-right me-2"></i> Login</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+    
+          <div class="modal-body">
+            <form id="loginForm">
+              <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" id="loginUsername" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" id="loginPassword" required />
+              </div>
+              <div id="loginError" class="text-danger mb-2"></div>
+              <div class="text-end">
+                <button type="submit" class="btn btn-primary rounded-pill">Login</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ==================== REGISTER MODAL ==================== -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow">
+          <div class="modal-header bg-success text-white">
+            <h5 class="modal-title" id="registerModalLabel"><i class="bi bi-person-plus me-2"></i> Register</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+    
+          <div class="modal-body">
+            <form id="registerForm">
+              <div class="mb-3">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" id="regFirstname" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="regLastname" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" id="regUsername" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" id="regEmail" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" id="regPassword" required />
+              </div>
+              <div id="registerError" class="text-danger mb-2"></div>
+              <div class="text-end">
+                <button type="submit" class="btn btn-success rounded-pill">Register</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </body>
 </html>

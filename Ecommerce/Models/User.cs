@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Ecommerce.Models;
 
 public class User
@@ -13,6 +15,9 @@ public class User
     public string Username { get; set; }
     
     public string Password { get; set; }
+    [NotMapped]
+
+    public string ConfirmPassword { get; set; }
 
     public bool Active { get; set; }
     

@@ -8,4 +8,8 @@ namespace Ecommerce.Models
 
         public Product? Product { get; set; } 
     }
+    public class CartModel
+    {
+        public List<CartItem> CartItems { get; set; }
+    }
 }

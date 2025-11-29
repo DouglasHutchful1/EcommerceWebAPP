@@ -14,6 +14,6 @@ public class CartController : Controller
         };
         
 
-        return View();
+        return View(model);
     }
 }

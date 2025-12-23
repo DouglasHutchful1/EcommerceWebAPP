@@ -19,7 +19,7 @@ public class HomeController(EcommerceDbContext dbcon,ILogger<HomeController> log
     {
         try
         {
-            var user = await dbcon.User.FirstOrDefaultAsync(u => 
+            var user = await dbcon.User.FirstOrDefaultAsync(u =>
                 u.Username == username || u.Email == username);
 
             if (user == null)
@@ -31,12 +31,23 @@ public class HomeController(EcommerceDbContext dbcon,ILogger<HomeController> log
             if (!user.Active)
                 return Unauthorized(new { success = false, message = "User is inactive" });
 
-            // set session
+            // store session values 
             HttpContext.Session.SetInt32("UserId", user.Id);
             HttpContext.Session.SetString("Username", user.Username);
             HttpContext.Session.SetString("Email", user.Email);
+            HttpContext.Session.SetInt32("UserType", user.UserType); 
 
-            return Ok(new { success = true, message = "Login Successful" , username = user.Username});
+            string redirectUrl = user.UserType == 1 
+                ? Url.Action("Index", "Admin")      
+                : Url.Action("Index", "Home");       
+
+            return Ok(new 
+            {
+                success = true,
+                message = "Login Successful",
+                username = user.Username,
+                redirect = redirectUrl
+            });
         }
         catch (Exception ex)
         {
@@ -44,6 +55,7 @@ public class HomeController(EcommerceDbContext dbcon,ILogger<HomeController> log
             return StatusCode(500, new { success = false, message = "Unexpected error occurred" });
         }
     }
+
 
     //method for handling resgistration
     [HttpPost]
@@ -69,6 +81,7 @@ public class HomeController(EcommerceDbContext dbcon,ILogger<HomeController> log
                 Username = requestDto.Username,
                 Password = PasswordHelper.HashPassword(requestDto.Password),
                 Active = true,
+                UserType = 0,
                 CreationDate = DateTime.UtcNow
             };
             dbcon.User.Add(user);
@@ -88,7 +101,7 @@ public class HomeController(EcommerceDbContext dbcon,ILogger<HomeController> log
     [HttpGet]
     public IActionResult GetCurrentUser()
     {
-        var userId = HttpContext.Session.GetInt32("UserId");
+        // var userId = HttpContext.Session.GetInt32("UserId");
         var username = HttpContext.Session.GetString("Username");
         var email = HttpContext.Session.GetString("Email");
 

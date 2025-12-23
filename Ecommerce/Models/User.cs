@@ -21,5 +21,7 @@ public class User
 
     public bool Active { get; set; }
     
+    public int UserType { get; set; } 
+    
     public DateTime? CreationDate { get; set; }
 }

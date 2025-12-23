@@ -516,64 +516,74 @@
                 });
 
             // -------- LOGIN BUTTON  ----------
-            $("#loginBtn").on("click", function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                console.log("Login button clicked");
-                
-                $("#loginError").text("");
-                
-                $.ajax({
-                    url: "/Home/Login",
-                    type: "POST",
-                    data: {
-                        username: $("#loginUsername").val(),
-                        password: $("#loginPassword").val()
-                    },
-                    success: function (res) {
-                        console.log("Login response:", res);
-                        if (res.success) {
-                            $("#loginError").text("");
-                            $("#loginModal").modal("hide");
-                            showToast('success', 'Login successful! Redirecting...');
-           
-                $("#accountDropdown").html(`
-                    <div class="dropdown">
-                        <a class="btn btn-sm btn-outline-dark dropdown-toggle rounded-pill" href="#" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle"></i> ${res.username}
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow">
-                            <li><a class="dropdown-item" href="/Profile"><i class="bi bi-person me-2"></i>My Profile</a></li>
-                            <li><a class="dropdown-item" href="/Orders"><i class="bi bi-bag-check me-2"></i>My Orders</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-                        </ul>
-                    </div>
-                `);
-
-                //  logout handler
-                $("#logoutBtn").on("click", function(e) {
-                    e.preventDefault();
-                    handleLogout();
-                });
-
-                $("#loginUsername, #loginPassword").val("");
-            } else {
-                $("#loginError").text(res.message);
-                showToast('error', res.message);
-            }
-        },
-                    error: function (xhr) {
-                        console.log("Login error:", xhr);
-                        const msg = xhr.responseJSON?.message || "Login failed";
-                        $("#loginError").text(msg);
-                        showToast('error', msg);
-                    }
-                });
-                
-                return false;
-            });
+     $("#loginBtn").on("click", function (e) {
+         e.preventDefault();
+         e.stopPropagation();
+         
+         console.log("Login button clicked");
+         
+         $("#loginError").text("");
+         
+         $.ajax({
+             url: "/Home/Login",
+             type: "POST",
+             data: {
+                 username: $("#loginUsername").val(),
+                 password: $("#loginPassword").val()
+             },
+             success: function (res) {
+                 console.log("Login response:", res);
+     
+                 if (res.success) {
+     
+                     $("#loginError").text("");
+                     $("#loginModal").modal("hide");
+                     showToast('success', 'Login successful! Redirecting...');
+     
+                     // Update navbar account dropdown
+                     $("#accountDropdown").html(`
+                         <div class="dropdown">
+                             <a class="btn btn-sm btn-outline-dark dropdown-toggle rounded-pill" href="#" data-bs-toggle="dropdown">
+                                 <i class="bi bi-person-circle"></i> ${res.username}
+                             </a>
+                             <ul class="dropdown-menu dropdown-menu-end shadow">
+                                 <li><a class="dropdown-item" href="/Profile"><i class="bi bi-person me-2"></i>My Profile</a></li>
+                                 <li><a class="dropdown-item" href="/Orders"><i class="bi bi-bag-check me-2"></i>My Orders</a></li>
+                                 <li><hr class="dropdown-divider"></li>
+                                 <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                             </ul>
+                         </div>
+                     `);
+     
+                     // Logout handler
+                     $("#logoutBtn").on("click", function(e) {
+                         e.preventDefault();
+                         handleLogout();
+                     });
+     
+                     $("#loginUsername, #loginPassword").val("");
+     
+                     if (res.redirect) {
+                         setTimeout(() => {
+                             window.location.href = res.redirect;
+                         }, 800); 
+                     }
+     
+                 } else {
+                     $("#loginError").text(res.message);
+                     showToast('error', res.message);
+                 }
+             },
+             error: function (xhr) {
+                 console.log("Login error:", xhr);
+                 const msg = xhr.responseJSON?.message || "Login failed";
+                 $("#loginError").text(msg);
+                 showToast('error', msg);
+             }
+         });
+         
+         return false;
+     });
 
             // Handle Enter key in login form
             $("#loginUsername, #loginPassword").on("keypress", function(e) {

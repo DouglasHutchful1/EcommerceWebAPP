@@ -2,20 +2,26 @@
     ViewData["Title"] = "Products";
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
 <div class="container my-5">
+
     <!-- Page Header -->
     <div class="text-center mb-5">
         <h1 class="fw-bold text-dark animate__animated animate__fadeInDown">
             <i class="bi bi-bag-check-fill text-primary"></i> Our Products
         </h1>
-        <p class="text-muted fs-5">Discover the best deals and latest trends from DawgShop</p>
+        <p class="text-muted fs-5 animate__animated animate__fadeInUp">
+            Discover the best deals and latest trends from DawgShop.
+        </p>
     </div>
 
     <!-- Filters Row -->
-    <div class="row mb-4 align-items-center">
+    <div class="row mb-4 align-items-center animate__animated animate__fadeIn">
         <div class="col-md-4 mb-2 mb-md-0">
             <input type="text" id="searchInput" class="form-control rounded-pill shadow-sm" placeholder="Search for products..." />
         </div>
+
         <div class="col-md-3 mb-2 mb-md-0">
             <select id="categoryFilter" class="form-select rounded-pill shadow-sm">
                 <option value="">All Categories</option>
@@ -24,6 +30,7 @@
                 <option value="Home">Home & Living</option>
             </select>
         </div>
+
         <div class="col-md-3 mb-2 mb-md-0">
             <select id="sortFilter" class="form-select rounded-pill shadow-sm">
                 <option value="latest">Sort by Latest</option>
@@ -31,8 +38,9 @@
                 <option value="high-low">Price: High to Low</option>
             </select>
         </div>
+
         <div class="col-md-2 text-md-end">
-            <button class="btn btn-primary rounded-pill px-4 w-100 shadow-sm">
+            <button id="filterBtn" class="btn btn-primary rounded-pill px-4 w-100 shadow-sm">
                 <i class="bi bi-funnel"></i> Filter
             </button>
         </div>
@@ -40,57 +48,91 @@
 
     <!-- Product Grid -->
     <div class="row g-4" id="productGrid">
-        @* Sample products (replace with dynamic data later) *@
+
         @for (int i = 1; i <= 8; i++)
         {
+            var images = new[]
+            {
+                "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&w=500&q=60",
+                "https://images.unsplash.com/photo-1606813908859-35e305882cd1?auto=format&fit=crop&w=500&q=60",
+                "https://images.unsplash.com/photo-1602526432604-29dc0d3ba939?auto=format&fit=crop&w=500&q=60",
+                "https://images.unsplash.com/photo-1595433707802-94f2f370027e?auto=format&fit=crop&w=500&q=60",
+                "https://images.unsplash.com/photo-1620793801920-8c03bd34ad47?auto=format&fit=crop&w=500&q=60",
+                "https://images.unsplash.com/photo-1621091211030-f464c0fe6a2c?auto=format&fit=crop&w=500&q=60"
+            };
+
             <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card h-100 border-0 shadow-sm product-card animate__animated animate__fadeInUp">
-                    <img src="https://via.placeholder.com/300x200?text=Product+@i" class="card-img-top rounded-top" alt="Product @i">
+                <div class="card product-card border-0 shadow-sm animate__animated animate__fadeInUp rounded-4">
+
+                    <div class="image-wrapper">
+                        <img src="@images[i % images.Length]" class="card-img-top" alt="Product @i" />
+                        <span class="badge bg-primary position-absolute top-0 end-0 m-2 rounded-pill px-3 py-1 shadow">New</span>
+                    </div>
+
                     <div class="card-body text-center">
                         <h6 class="card-title fw-bold">Product @i</h6>
                         <p class="text-muted small mb-1">Category: Electronics</p>
-                        <p class="fw-bold text-primary mb-2">$@(i * 25).00</p>
-                        <button class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                        <p class="fw-bold text-primary fs-5">$@(i * 25).00</p>
+
+                        <button class="btn btn-outline-dark btn-sm rounded-pill px-3 add-cart-btn">
                             <i class="bi bi-cart-plus"></i> Add to Cart
                         </button>
                     </div>
+
                 </div>
             </div>
         }
+
     </div>
 </div>
 
-<!-- Optional: Modern hover and transition styling -->
+<!-- Modern Styling -->
 <style>
     .product-card {
-        transition: transform 0.2s ease, box-shadow 0.3s ease;
-        border-radius: 1rem;
+        transition: transform .25s ease, box-shadow .25s ease;
     }
 
     .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        transform: translateY(-8px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
     }
 
-    .card-img-top {
-        height: 200px;
+    .image-wrapper {
+        position: relative;
+        overflow: hidden;
+        border-radius: 1rem 1rem 0 0;
+        height: 180px;
+    }
+
+    .image-wrapper img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
-        border-top-left-radius: 1rem;
-        border-top-right-radius: 1rem;
+        transition: transform .4s ease;
     }
 
-    .btn-outline-primary:hover {
-        background-color: #0d6efd;
-        color: white;
+    .product-card:hover img {
+        transform: scale(1.06);
+    }
+
+    .add-cart-btn {
+        transition: all .2s;
+    }
+
+    .add-cart-btn:hover {
+        background-color: #000;
+        color: #fff;
     }
 </style>
 
 <script>
-    document.querySelector('button.btn-primary').addEventListener('click', function() {
-        const search = document.getElementById('searchInput').value;
-        const category = document.getElementById('categoryFilter').value;
-        const sort = document.getElementById('sortFilter').value;
-        console.log("Filter -> Search:", search, "Category:", category, "Sort:", sort);
-        // TODO: AJAX call to filter products dynamically
+    document.getElementById("filterBtn").addEventListener("click", function () {
+        const search = document.getElementById("searchInput").value;
+        const category = document.getElementById("categoryFilter").value;
+        const sort = document.getElementById("sortFilter").value;
+
+        console.log("Filter ->", { search, category, sort });
+
+        // TODO: AJAX dynamic filtering here
     });
 </script>

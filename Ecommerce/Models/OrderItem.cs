@@ -1,5 +1,9 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Ecommerce.Models
 {
+    [Table("OrderItem")] 
+
     public class OrderItem
     {
         public int Id { get; set; }

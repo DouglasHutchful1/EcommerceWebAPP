@@ -16,6 +16,10 @@ public class AdminController(EcommerceDbContext _db,ILogger<AdminController> _lo
     public IActionResult Products()
     {
         return View();
+    } 
+    public IActionResult Orders()
+    {
+        return View();
     }
     public IActionResult Users()
     {
@@ -297,6 +301,26 @@ public class AdminController(EcommerceDbContext _db,ILogger<AdminController> _lo
             return StatusCode(500, new { success = false, message = "Unexpected error occurred" });
         }
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> UpdateOrder([FromBody] Order order)
+    {
+        try
+        {
+            var existing = await _db.Orders.FindAsync(order.Id);
+            if (existing == null) return NotFound(new { success = false, message = "Order not found" });
+
+            existing.Status = order.Status;
+            await _db.SaveChangesAsync();
+
+            return Ok(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,"Error Occured");
+            return StatusCode(500, new { success = false, message = "error updating order status" });
+        }
+    }
 
     // delete user
     public async Task<IActionResult> DeleteUser(int id)
@@ -319,6 +343,155 @@ public class AdminController(EcommerceDbContext _db,ILogger<AdminController> _lo
         }
     }
     
+    
+[HttpGet]
+public async Task<IActionResult> GetOrders()
+{
+    try
+    {
+        var orders = await (
+            from o in _db.Orders
+            join u in _db.User on o.UserIdFk equals u.Id
+            select new
+            {
+                o.Id,
+                OrderDate = o.OrderDate.ToString("yyyy-MM-dd"),
+                Username = u.Username,
+                o.ShippingAddress,
+                o.TotalAmount,
+                ItemCount = _db.OrderItems.Count(oi => oi.OrderId == o.Id)
+            }
+        ).ToListAsync();
 
+        return Ok(orders);
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error Occurred");
+        return StatusCode(500, new { success = false, message = "Unexpected error occurred" });
+    }
+}
+
+   
+[HttpGet]
+public async Task<IActionResult> GetOrderDetails(int id)
+{
+    try
+    {
+        var order = await _db.Orders
+            .Where(o => o.Id == id)
+            .Select(o => new
+            {
+                o.Id,
+                OrderDate = o.OrderDate.ToString("yyyy-MM-dd"),
+                o.ShippingAddress,
+                o.TotalAmount,
+                Items = o.OrderItems.Select(i => new
+                {
+                    i.Id,
+                    i.ProductIdfk,
+                    i.Quantity,
+                    i.UnitPrice
+                }).ToList()
+            })
+            .FirstOrDefaultAsync();
+
+        if (order == null)
+            return NotFound();
+
+        return Ok(order);
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error Occurred");
+        return StatusCode(500, new { success = false, message = "Unexpected error occurred" });
+    }           
+}
+
+
+
+    // Admin/DeleteOrder
+    
+    public async Task<IActionResult> DeleteOrder(int id)
+    {
+        try
+        {
+            var order = await _db.Orders.FindAsync(id);
+            if (order == null)
+                return NotFound(new { success = false, message = "Order not found" });
+
+            _db.Orders.Remove(order);
+            await _db.SaveChangesAsync();
+            return Ok(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,"Error Occured");
+            return StatusCode(500, new { success = false, message = "Unexpected error occurred" });
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> DashboardStats()
+    {
+        try
+        {
+            var totalUsers = await _db.User.CountAsync();
+            var totalOrders = await _db.Orders.CountAsync();
+            var totalProducts = await _db.Products.CountAsync();
+
+            var totalRevenue = await _db.Orders
+                .SumAsync(o => (decimal?)o.TotalAmount) ?? 0;
+
+            var today = DateTime.Today;
+            var ordersToday = await _db.Orders
+                .CountAsync(o => o.OrderDate >= today);
+
+            return Ok(new
+            {
+                totalUsers,
+                totalOrders,
+                totalProducts,
+                totalRevenue,
+                ordersToday
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error Occurred");
+            return StatusCode(500, new { success = false, message = "Unexpected error occurred" });
+        }   
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> RecentOrders()
+    {
+        try
+        {
+            var orders = await (
+                from o in _db.Orders
+                join u in _db.User on o.UserIdFk equals u.Id
+                orderby o.OrderDate descending
+                select new
+                {
+                    o.Id,
+                    OrderDate = o.OrderDate.ToString("yyyy-MM-dd"),
+                    u.Username,
+                    o.ShippingAddress,
+                    o.TotalAmount,
+                    ItemCount = _db.OrderItems.Count(i => i.OrderId == o.Id)
+                }
+            ).Take(10).ToListAsync();
+
+            return Ok(orders);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error Occurred");
+            return StatusCode(500, new { success = false, message = "Unexpected error occurred" });
+        }
+    }
+
+    
 
 }

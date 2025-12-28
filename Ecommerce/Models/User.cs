@@ -2,6 +2,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Ecommerce.Models;
 
+[Table("User")] 
+
 public class User
 {
     public int Id { get; set; }

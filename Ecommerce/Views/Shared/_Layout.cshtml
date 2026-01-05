@@ -82,6 +82,30 @@
                     border-top-left-radius: 0.75rem;
                     border-top-right-radius: 0.75rem;
                 }
+                .cart-backdrop {
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0,0,0,.4);
+                    z-index: 1040;
+                    display: none;
+                }
+                .cart-backdrop.show { display: block; }
+                
+                .cart-drawer {
+                    position: fixed;
+                    top: 0;
+                    right: -380px;
+                    width: 360px;
+                    height: 100vh;
+                    background: #fff;
+                    z-index: 1050;
+                    display: flex;
+                    flex-direction: column;
+                    transition: right .3s ease;
+                    box-shadow: -4px 0 20px rgba(0,0,0,.15);
+                }
+                .cart-drawer.open { right: 0; }
+
     </style>
 </head>
 <body>
@@ -168,10 +192,14 @@
                 </form>
 
                 <!-- CART -->
-                <a href="/Cart" class="btn btn-sm btn-outline-secondary me-2 rounded-pill position-relative">
-                    <i class="bi bi-cart3"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
-                </a>
+               <button class="btn btn-sm btn-outline-secondary me-2 rounded-pill position-relative"
+                       onclick="toggleCart()">
+                   <i class="bi bi-cart3"></i>
+                   <span id="cartCount"
+                         class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                       0
+                   </span>
+               </button>
 
                
          
@@ -386,6 +414,63 @@
     <script>
         $(document).ready(function () {
             console.log("jQuery loaded:", typeof jQuery !== 'undefined');
+       window.toggleCart = function () {
+           const drawer = document.getElementById("cartDrawer");
+           const backdrop = document.getElementById("cartBackdrop");
+       
+           if (!drawer || !backdrop) return;
+       
+           drawer.classList.toggle("open");
+           backdrop.classList.toggle("show");
+       
+           if (drawer.classList.contains("open")) {
+               loadCart();
+           }
+       }
+
+                        
+                        async function loadCart() {
+                            const res = await fetch("/Cart/Get");
+                            const data = await res.json();
+                        
+                            const container = document.getElementById("cartItems");
+                            const countBadge = document.getElementById("cartCount");
+                        
+                            container.innerHTML = "";
+                        
+                            if (!data.items || data.items.length === 0) {
+                                container.innerHTML = `<p class="text-muted text-center">Your cart is empty</p>`;
+                                document.getElementById("cartTotal").innerText = "$0.00";
+                                countBadge.textContent = "0";
+                                return;
+                            }
+                        
+                            let totalQty = 0;
+                        
+                            data.items.forEach(i => {
+                                totalQty += i.quantity;
+                        
+                                container.innerHTML += `
+                                    <div class="d-flex align-items-center mb-3">
+                                        <img src="${i.image}" class="rounded me-2" style="width:60px;height:60px;object-fit:cover" />
+                                        <div class="flex-grow-1">
+                                            <div class="fw-semibold">${i.name}</div>
+                                            <small>$${i.price} × ${i.quantity}</small>
+                                        </div>
+                                        <button class="btn btn-sm btn-outline-danger"
+                                                onclick="removeFromCart(${i.productId})">
+                                            ×
+                                        </button>
+                                    </div>
+                                `;
+                            });
+                        
+                            document.getElementById("cartTotal").innerText =
+                                "$" + data.total.toFixed(2);
+                        
+                            countBadge.textContent = totalQty;
+                        }
+
             
                  // ========== TOAST NOTIFICATION HELPER FUNCTIONS ==========
                     function showToast(type, message) {
@@ -652,7 +737,8 @@
                 
                 return false;
             });
-
+            
+       
             // Handle Enter key in register form
             $("#regFirstname, #regLastname, #regUsername, #regEmail, #regPassword, #regConfirmPassword").on("keypress", function(e) {
                 if (e.which === 13) {
@@ -662,6 +748,28 @@
             });
         });
     </script>
+<!-- CART BACKDROP -->
+<div id="cartBackdrop" class="cart-backdrop" onclick="toggleCart()"></div>
+
+<!-- CART DRAWER -->
+<div id="cartDrawer" class="cart-drawer">
+    <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Your Cart</h5>
+        <button class="btn btn-sm btn-outline-secondary" onclick="toggleCart()">×</button>
+    </div>
+
+    <div id="cartItems" class="p-3 flex-grow-1 overflow-auto"></div>
+
+    <div class="p-3 border-top">
+        <div class="d-flex justify-content-between fw-bold mb-2">
+            <span>Total</span>
+            <span id="cartTotal">$0.00</span>
+        </div>
+        <a href="/Cart" class="btn btn-primary w-100 rounded-pill">
+            View Cart
+        </a>
+    </div>
+</div>
 
 </body>
 </html>

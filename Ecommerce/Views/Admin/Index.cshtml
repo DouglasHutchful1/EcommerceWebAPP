@@ -1,4 +1,205 @@
 @{
-    ViewData["Title"] = "Manage Products";
+    ViewData["Title"] = "Manage Dashboard";
     Layout = "_AdminLayout";
 }
+
+<style>
+/* KPI cards */
+.stat-card {
+    border: none;
+    border-radius: 18px;
+    color: #fff;
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+    transition: all .25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 20px 40px rgba(0,0,0,.15);
+}
+
+.stat-icon {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    font-size: 48px;
+    opacity: .2;
+}
+
+.bg-users { background: linear-gradient(135deg, #4f46e5, #6366f1); }
+.bg-orders { background: linear-gradient(135deg, #0ea5e9, #38bdf8); }
+.bg-products { background: linear-gradient(135deg, #22c55e, #4ade80); }
+.bg-revenue { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.bg-today { background: linear-gradient(135deg, #ec4899, #f472b6); }
+
+.stat-title {
+    font-size: .9rem;
+    opacity: .9;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+/* Smooth entrance */
+.fade-in {
+    animation: fadeUp .6s ease forwards;
+    opacity: 0;
+}
+
+@@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Table styling */
+.table-card {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.table thead {
+    background: #f8fafc;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f5f9;
+    transition: 0.2s;
+}
+</style>
+
+<h2 class="fw-bold mb-4">Dashboard Overview</h2>
+
+<!-- KPI ROW -->
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3 fade-in">
+        <div class="stat-card bg-users">
+            <div class="stat-title">Total Users</div>
+            <div id="totalUsers" class="stat-value">0</div>
+            <i class="bi bi-people stat-icon"></i>
+        </div>
+    </div>
+
+    <div class="col-md-3 fade-in">
+        <div class="stat-card bg-orders">
+            <div class="stat-title">Total Orders</div>
+            <div id="totalOrders" class="stat-value">0</div>
+            <i class="bi bi-bag-check stat-icon"></i>
+        </div>
+    </div>
+
+    <div class="col-md-3 fade-in">
+        <div class="stat-card bg-products">
+            <div class="stat-title">Total Products</div>
+            <div id="totalProducts" class="stat-value">0</div>
+            <i class="bi bi-box-seam stat-icon"></i>
+        </div>
+    </div>
+
+    <div class="col-md-3 fade-in">
+        <div class="stat-card bg-revenue">
+            <div class="stat-title">Total Revenue</div>
+            <div id="totalRevenue" class="stat-value">0.00</div>
+            <i class="bi bi-cash-stack stat-icon"></i>
+        </div>
+    </div>
+
+    <div class="col-md-3 fade-in">
+        <div class="stat-card bg-today">
+            <div class="stat-title">Orders Today</div>
+            <div id="ordersToday" class="stat-value">0</div>
+            <i class="bi bi-calendar-check stat-icon"></i>
+        </div>
+    </div>
+</div>
+
+<!-- RECENT ORDERS -->
+<div class="card table-card shadow-sm fade-in">
+    <div class="card-header fw-bold bg-white">
+        Recent Orders
+    </div>
+
+    <div class="table-responsive">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>User</th>
+                    <th>Address</th>
+                    <th>Total</th>
+                    <th>Items</th>
+                </tr>
+            </thead>
+            <tbody id="recentOrdersBody"></tbody>
+        </table>
+    </div>
+</div>
+<script>
+function animateValue(el, start, end, duration = 600) {
+    let startTime = null;
+
+    function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const value = Math.floor(progress * (end - start) + start);
+        el.textContent = value.toLocaleString();
+
+        if (progress < 1) requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+}
+
+function loadDashboardStats() {
+    fetch('/Admin/DashboardStats')
+        .then(r => r.json())
+        .then(data => {
+            animateValue(document.getElementById('totalUsers'), 0, data.totalUsers);
+            animateValue(document.getElementById('totalOrders'), 0, data.totalOrders);
+            animateValue(document.getElementById('totalProducts'), 0, data.totalProducts);
+            animateValue(document.getElementById('ordersToday'), 0, data.ordersToday);
+
+            document.getElementById('totalRevenue').textContent =
+                Number(data.totalRevenue).toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+        });
+}
+
+function loadRecentOrders() {
+    fetch('/Admin/RecentOrders')
+        .then(r => r.json())
+        .then(rows => {
+            const tbody = document.getElementById('recentOrdersBody');
+            tbody.innerHTML = '';
+
+            rows.forEach((o, i) => {
+                tbody.innerHTML += `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${o.orderDate}</td>
+                    <td>${o.username}</td>
+                    <td>${o.shippingAddress ?? ''}</td>
+                    <td>${Number(o.totalAmount).toFixed(2)}</td>
+                    <td>${o.itemCount}</td>
+                </tr>`;
+            });
+        });
+}
+
+loadDashboardStats();
+loadRecentOrders();
+</script>

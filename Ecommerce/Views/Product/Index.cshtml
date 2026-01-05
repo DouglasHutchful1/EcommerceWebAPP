@@ -7,132 +7,268 @@
 <div class="container my-5">
 
     <!-- Page Header -->
-    <div class="text-center mb-5">
-        <h1 class="fw-bold text-dark animate__animated animate__fadeInDown">
-            <i class="bi bi-bag-check-fill text-primary"></i> Our Products
-        </h1>
-        <p class="text-muted fs-5 animate__animated animate__fadeInUp">
-            Discover the best deals and latest trends from DawgShop.
-        </p>
-    </div>
+   <div class="text-center mb-5">
+       <h1 class="fw-bold page-title animate__animated animate__fadeInDown">
+           Explore Our Products
+       </h1>
+       <p class="text-muted fs-6 animate__animated animate__fadeInUp">
+           Hand-picked items curated just for you
+       </p>
+   </div>
+
 
     <!-- Filters Row -->
-    <div class="row mb-4 align-items-center animate__animated animate__fadeIn">
-        <div class="col-md-4 mb-2 mb-md-0">
-            <input type="text" id="searchInput" class="form-control rounded-pill shadow-sm" placeholder="Search for products..." />
-        </div>
+ <div class="row mb-4 animate__animated animate__fadeIn">
+     <div class="col-12">
+         <div class="filter-bar row g-3 align-items-center">
+ 
+             <div class="col-md-4">
+                 <input type="text" id="searchInput"
+                        class="form-control rounded-pill"
+                        placeholder="Search products..." />
+             </div>
+ 
+             <div class="col-md-3">
+                 <select id="categoryFilter" class="form-select rounded-pill">
+                     <option value="">All Categories</option>
+                     <option value="Electronics">Electronics</option>
+                     <option value="Fashion">Fashion</option>
+                     <option value="Home">Home & Living</option>
+                 </select>
+             </div>
+ 
+             <div class="col-md-3">
+                 <select id="sortFilter" class="form-select rounded-pill">
+                     <option value="latest">Newest</option>
+                     <option value="low-high">Price: Low → High</option>
+                     <option value="high-low">Price: High → Low</option>
+                 </select>
+             </div>
+ 
+             <div class="col-md-2">
+                 <button id="filterBtn" class="btn btn-primary w-100 rounded-pill">
+                     Search
+                 </button>
+             </div>
+ 
+         </div>
+     </div>
+ </div>
 
-        <div class="col-md-3 mb-2 mb-md-0">
-            <select id="categoryFilter" class="form-select rounded-pill shadow-sm">
-                <option value="">All Categories</option>
-                <option value="Electronics">Electronics</option>
-                <option value="Fashion">Fashion</option>
-                <option value="Home">Home & Living</option>
-            </select>
-        </div>
-
-        <div class="col-md-3 mb-2 mb-md-0">
-            <select id="sortFilter" class="form-select rounded-pill shadow-sm">
-                <option value="latest">Sort by Latest</option>
-                <option value="low-high">Price: Low to High</option>
-                <option value="high-low">Price: High to Low</option>
-            </select>
-        </div>
-
-        <div class="col-md-2 text-md-end">
-            <button id="filterBtn" class="btn btn-primary rounded-pill px-4 w-100 shadow-sm">
-                <i class="bi bi-funnel"></i> Filter
-            </button>
-        </div>
-    </div>
 
     <!-- Product Grid -->
     <div class="row g-4" id="productGrid">
 
-        @for (int i = 1; i <= 8; i++)
-        {
-            var images = new[]
-            {
-                "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&w=500&q=60",
-                "https://images.unsplash.com/photo-1606813908859-35e305882cd1?auto=format&fit=crop&w=500&q=60",
-                "https://images.unsplash.com/photo-1602526432604-29dc0d3ba939?auto=format&fit=crop&w=500&q=60",
-                "https://images.unsplash.com/photo-1595433707802-94f2f370027e?auto=format&fit=crop&w=500&q=60",
-                "https://images.unsplash.com/photo-1620793801920-8c03bd34ad47?auto=format&fit=crop&w=500&q=60",
-                "https://images.unsplash.com/photo-1621091211030-f464c0fe6a2c?auto=format&fit=crop&w=500&q=60"
-            };
 
-            <div class="col-sm-6 col-md-4 col-lg-3">
-                <div class="card product-card border-0 shadow-sm animate__animated animate__fadeInUp rounded-4">
-
-                    <div class="image-wrapper">
-                        <img src="@images[i % images.Length]" class="card-img-top" alt="Product @i" />
-                        <span class="badge bg-primary position-absolute top-0 end-0 m-2 rounded-pill px-3 py-1 shadow">New</span>
-                    </div>
-
-                    <div class="card-body text-center">
-                        <h6 class="card-title fw-bold">Product @i</h6>
-                        <p class="text-muted small mb-1">Category: Electronics</p>
-                        <p class="fw-bold text-primary fs-5">$@(i * 25).00</p>
-
-                        <button class="btn btn-outline-dark btn-sm rounded-pill px-3 add-cart-btn">
-                            <i class="bi bi-cart-plus"></i> Add to Cart
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-        }
 
     </div>
 </div>
 
-<!-- Modern Styling -->
 <style>
-    .product-card {
-        transition: transform .25s ease, box-shadow .25s ease;
-    }
+body {
+    background: #f7f8fb;
+}
 
-    .product-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
-    }
+.page-title {
+    letter-spacing: -0.5px;
+}
 
-    .image-wrapper {
-        position: relative;
-        overflow: hidden;
-        border-radius: 1rem 1rem 0 0;
-        height: 180px;
-    }
+.filter-bar {
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
 
-    .image-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform .4s ease;
-    }
+/* === PRODUCT CARD === */
+.product-card {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #fff;
+    transition: all .35s ease;
+    position: relative;
+}
 
-    .product-card:hover img {
-        transform: scale(1.06);
-    }
+.product-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    box-shadow: 0 25px 60px rgba(0,0,0,.08);
+    opacity: 0;
+    transition: .35s ease;
+    pointer-events: none;
+}
 
-    .add-cart-btn {
-        transition: all .2s;
-    }
+.product-card:hover::after {
+    opacity: 1;
+}
 
-    .add-cart-btn:hover {
-        background-color: #000;
-        color: #fff;
+.product-card:hover {
+    transform: translateY(-10px);
+}
+
+/* IMAGE */
+.image-wrapper {
+    height: 210px;
+    overflow: hidden;
+    position: relative;
+    background: #f1f1f1;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .5s ease;
+}
+
+.product-card:hover img {
+    transform: scale(1.12);
+}
+
+/* badge */
+.badge-new {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: #fff;
+    padding: 6px 14px;
+    font-size: .75rem;
+    border-radius: 999px;
+    font-weight: 600;
+    box-shadow: 0 6px 15px rgba(79,70,229,.4);
+}
+
+/* BODY */
+.card-body {
+    padding: 1.2rem;
+}
+
+.product-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: .25rem;
+    color: #111;
+}
+
+.product-category {
+    font-size: .8rem;
+    color: #6b7280;
+}
+
+.product-price {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+/* BUTTON */
+.add-cart-btn {
+    border-radius: 999px;
+    padding: 8px 18px;
+    border: 1px solid #111;
+    background: transparent;
+    font-weight: 600;
+    transition: all .25s ease;
+}
+
+.add-cart-btn:hover {
+    background: #111;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* subtle animation */
+.fade-up {
+    animation: fadeUp .5s ease both;
+}
+
+@@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 </style>
 
+
 <script>
-    document.getElementById("filterBtn").addEventListener("click", function () {
-        const search = document.getElementById("searchInput").value;
-        const category = document.getElementById("categoryFilter").value;
-        const sort = document.getElementById("sortFilter").value;
+async function loadProducts() {
+    const search = document.getElementById("searchInput").value;
+    const category = document.getElementById("categoryFilter").value;
+    const sort = document.getElementById("sortFilter").value;
 
-        console.log("Filter ->", { search, category, sort });
+    const url = `/Product/GetProducts?search=${encodeURIComponent(search)}&category=${encodeURIComponent(category)}&sort=${sort}`;
 
-        // TODO: AJAX dynamic filtering here
+    const res = await fetch(url);
+    const products = await res.json();
+
+    const grid = document.getElementById("productGrid");
+    grid.innerHTML = "";
+
+   products.forEach(p => {
+       grid.innerHTML += `
+       <div class="col-sm-6 col-md-4 col-lg-3 fade-up">
+           <div class="product-card">
+               <div class="image-wrapper">
+                   <img src="${p.image}" alt="${p.name}">
+                   <span class="badge-new">New</span>
+               </div>
+   
+               <div class="card-body text-center">
+                   <div class="product-title">${p.name}</div>
+                   <div class="product-category">${p.category}</div>
+   
+                   <div class="d-flex justify-content-between align-items-center mt-3">
+                       <span class="product-price">$${p.price.toFixed(2)}</span>
+   
+                       <button 
+                           class="add-cart-btn"
+                           data-id="${p.id}">
+                           <i class="bi bi-cart-plus"></i>
+                       </button>
+                   </div>
+               </div>
+           </div>
+       </div>`;
+   });
+
+}
+
+// filter button
+document.getElementById("filterBtn").addEventListener("click", loadProducts);
+
+document.addEventListener("click", async e => {
+    const btn = e.target.closest(".add-cart-btn");
+    if (!btn) return;
+
+    const payload = {
+        productId: parseInt(btn.dataset.id),
+        quantity: 1
+    };
+
+    const res = await fetch("/Cart/Add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
     });
+
+    if (res.ok) {
+        showToast('success', 'Added to cart');
+        loadCart();       
+        toggleCart();       
+    }
+});
+
+
+// auto-load on page load
+document.addEventListener("DOMContentLoaded", loadProducts);
 </script>
+

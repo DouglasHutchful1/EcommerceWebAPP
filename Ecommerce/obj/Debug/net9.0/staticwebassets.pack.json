@@ -2,7 +2,7 @@
   "Files": [
     {
       "Id": "/home/douglas/EcommerceWebAPP/Ecommerce/obj/Debug/net9.0/scopedcss/projectbundle/Ecommerce.bundle.scp.css",
-      "PackagePath": "staticwebassets/Ecommerce.dm17i57x1n.bundle.scp.css"
+      "PackagePath": "staticwebassets/Ecommerce.dvqm0bqbdh.bundle.scp.css"
     },
     {
       "Id": "/home/douglas/EcommerceWebAPP/Ecommerce/wwwroot/css/site.css",
@@ -255,6 +255,14 @@
     {
       "Id": "/home/douglas/EcommerceWebAPP/Ecommerce/wwwroot/lib/jquery/dist/jquery.slim.min.map",
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.slim.min.map"
+    },
+    {
+      "Id": "/home/douglas/EcommerceWebAPP/Ecommerce/wwwroot/uploads/products/7798d597-52a2-41c3-b170-7be1f08914e6.png",
+      "PackagePath": "staticwebassets/uploads/products/7798d597-52a2-41c3-b170-7be1f08914e6.png"
+    },
+    {
+      "Id": "/home/douglas/EcommerceWebAPP/Ecommerce/wwwroot/uploads/products/c75b9bbb-7c87-4888-b1ff-65aaec69e6a0.png",
+      "PackagePath": "staticwebassets/uploads/products/c75b9bbb-7c87-4888-b1ff-65aaec69e6a0.png"
     },
     {
       "Id": "obj/Debug/net9.0/staticwebassets/msbuild.Ecommerce.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",

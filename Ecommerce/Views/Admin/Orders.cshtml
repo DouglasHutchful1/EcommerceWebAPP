@@ -1,0 +1,334 @@
+@{
+    ViewData["Title"] = "Manage Orders";
+    Layout = "_AdminLayout";
+}
+<style>
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.05);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0,0,0,.12);
+}
+
+.stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: #fff;
+}
+
+.stat-label {
+    font-size: .85rem;
+    color: #6c757d;
+}
+
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.search-box {
+    max-width: 280px;
+    border-radius: 30px;
+    padding-left: 16px;
+}
+
+.table tbody tr {
+    transition: background .15s ease;
+}
+
+.table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.badge-status {
+    padding: .4em .7em;
+    border-radius: 20px;
+    font-size: .8rem;
+}
+
+.status-Pending { background: #fff3cd; color: #856404; }
+.status-Processing { background: #cfe2ff; color: #084298; }
+.status-Completed { background: #d1e7dd; color: #0f5132; }
+.status-Cancelled { background: #f8d7da; color: #842029; }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Orders</h2>
+        <small class="text-muted">Track and manage customer orders</small>
+    </div>
+</div>
+
+<!-- STATS -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon bg-primary"><i class="bi bi-receipt"></i></div>
+            <div>
+                <div class="stat-label">Total Orders</div>
+                <div class="stat-value" id="statTotalOrders">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon bg-success"><i class="bi bi-cash-stack"></i></div>
+            <div>
+                <div class="stat-label">Total Revenue</div>
+                <div class="stat-value" id="statRevenue">0.00</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon bg-warning"><i class="bi bi-hourglass-split"></i></div>
+            <div>
+                <div class="stat-label">Pending</div>
+                <div class="stat-value" id="statPending">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="stat-icon bg-success"><i class="bi bi-check-circle"></i></div>
+            <div>
+                <div class="stat-label">Completed</div>
+                <div class="stat-value" id="statCompleted">0</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SEARCH -->
+<div class="d-flex justify-content-end mb-3">
+    <input type="text"
+           id="searchOrders"
+           class="form-control search-box"
+           placeholder="Search orders...">
+</div>
+
+<!-- TABLE -->
+<div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+        <table class="table align-middle table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Order #</th>
+                    <th>Customer</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Order Number</th>
+                <th>Customer</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Date Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="ordersTableBody"></tbody>
+    </table>
+</div>
+
+<!-- Order Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Order Details</h5>
+                <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="orderForm">
+                <div class="modal-body">
+                    <input type="hidden" id="orderId" />
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Customer</label>
+                            <input type="text" id="customerName" class="form-control" readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Order Number</label>
+                            <input type="text" id="orderNumber" class="form-control" readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Total Amount</label>
+                            <input type="text" id="totalAmount" class="form-control" readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Status</label>
+                            <select id="status" class="form-select">
+                                <option>Pending</option>
+                                <option>Processing</option>
+                                <option>Completed</option>
+                                <option>Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-light rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary rounded-pill px-4" type="submit">
+                        Update Status
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+function loadOrders() {
+    fetch('/Admin/GetOrders')
+        .then(r => r.json())
+        .then(orders => {
+            const tbody = document.getElementById('ordersTableBody');
+            tbody.innerHTML = '';
+
+            let total = 0, pending = 0, completed = 0, revenue = 0;
+
+            orders.forEach((o, i) => {
+                total++;
+                revenue += Number(o.totalAmount || 0);
+
+                if (o.status === "Pending") pending++;
+                if (o.status === "Completed") completed++;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${o.orderNumber}</td>
+                        <td>${o.customerName}</td>
+                        <td>${Number(o.totalAmount).toFixed(2)}</td>
+                        <td>
+                            <span class="badge-status status-${o.status}">
+                                ${o.status}
+                            </span>
+                        </td>
+                        <td>${o.creationDate}</td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-primary me-1 editOrderBtn" data-id="${o.id}">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger deleteOrderBtn" data-id="${o.id}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>`;
+            });
+
+            document.getElementById("statTotalOrders").textContent = total;
+            document.getElementById("statCompleted").textContent = completed;
+            document.getElementById("statPending").textContent = pending;
+            document.getElementById("statRevenue").textContent = revenue.toFixed(2);
+
+            attachOrderEvents();
+        });
+}
+
+// Search
+document.getElementById("searchOrders").addEventListener("input", function () {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll("#ordersTableBody tr").forEach(row => {
+        row.style.display = row.innerText.toLowerCase().includes(q) ? "" : "none";
+    });
+});
+
+// Edit / Delete handlers
+function attachOrderEvents() {
+    document.querySelectorAll('.editOrderBtn').forEach(btn => {
+        btn.onclick = () => {
+            fetch(`/Admin/GetOrder/${btn.dataset.id}`)
+                .then(r => r.json())
+                .then(o => {
+                    document.getElementById('orderId').value = o.id;
+                    document.getElementById('customerName').value = o.customerName;
+                    document.getElementById('orderNumber').value = o.orderNumber;
+                    document.getElementById('totalAmount').value = o.totalAmount;
+                    document.getElementById('status').value = o.status;
+
+                    bootstrap.Modal.getOrCreateInstance(
+                        document.getElementById('orderModal')
+                    ).show();
+                });
+        };
+    });
+
+    document.querySelectorAll('.deleteOrderBtn').forEach(btn => {
+        btn.onclick = () => {
+            if (!confirm("Delete this order?")) return;
+
+            fetch(`/Admin/DeleteOrder/${btn.dataset.id}`, { method: 'POST' })
+                .then(r => r.json())
+                .then(res => {
+                    if (res.success) loadOrders();
+                    else alert(res.message);
+                });
+        };
+    });
+}
+
+// Update order
+document.getElementById('orderForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    fetch('/Admin/UpdateOrder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            Id: parseInt(document.getElementById('orderId').value),
+            Status: document.getElementById('status').value
+        })
+    })
+    .then(r => r.json())
+    .then(res => {
+        if (res.success) {
+            bootstrap.Modal.getInstance(document.getElementById('orderModal')).hide();
+            loadOrders();
+        } else {
+            alert(res.message);
+        }
+    });
+});
+
+loadOrders();
+</script>
+

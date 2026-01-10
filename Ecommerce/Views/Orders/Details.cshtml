@@ -1,0 +1,145 @@
+@model Ecommerce.Models.Order
+
+@{
+    ViewData["Title"] = "Order Details";
+    Layout = "_Layout";
+}
+
+<style>
+    .order-header {
+        border-radius: 1.25rem;
+    }
+
+    .status-badge {
+        border-radius: 999px;
+        padding: .35rem .85rem;
+        font-size: .75rem;
+        font-weight: 600;
+    }
+
+    .status-pending {
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .status-completed {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .status-cancelled {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .order-item {
+        border-radius: 1rem;
+        transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .order-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 .75rem 1.5rem rgba(0,0,0,.08);
+    }
+
+    .meta-label {
+        font-size: .8rem;
+        color: #6b7280;
+    }
+</style>
+
+<div class="container my-5">
+
+    <!-- HEADER -->
+    <div class="card shadow-sm border-0 p-4 mb-4 order-header">
+        <div class="d-flex flex-wrap justify-content-between align-items-start gap-3">
+
+            <div>
+                <h2 class="fw-bold mb-1">Order #@Model.Id</h2>
+                <div class="text-muted">
+                    @Model.OrderDate.ToLocalTime().ToString("dd MMM yyyy · hh:mm tt")
+                </div>
+            </div>
+
+            @{
+                var statusClass = Model.Status switch
+                {
+                    "Completed" => "status-completed",
+                    "Cancelled" => "status-cancelled",
+                    _ => "status-pending"
+                };
+            }
+
+            <span class="status-badge @statusClass">
+                @Model.Status
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- LEFT : ITEMS -->
+        <div class="col-lg-8">
+            <h5 class="fw-semibold mb-3">Items</h5>
+
+            @foreach (var item in Model.OrderItems)
+            {
+                <div class="card border-0 shadow-sm p-3 mb-3 order-item">
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <div class="fw-semibold">
+                                @item.Product?.Name
+                            </div>
+                            <div class="meta-label">
+                                @item.UnitPrice.ToString("C") × @item.Quantity
+                            </div>
+                        </div>
+
+                        <div class="fw-bold fs-5">
+                            @((item.UnitPrice * item.Quantity).ToString("C"))
+                        </div>
+
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- RIGHT : SUMMARY -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 p-4 sticky-top" style="top:100px;">
+                <h5 class="fw-semibold mb-3">Order Summary</h5>
+
+                <div class="mb-3">
+                    <div class="meta-label mb-1">Shipping To</div>
+                    <strong>@Model.ShippingName</strong><br />
+                    <span class="text-muted small">
+                        @Model.ShippingEmail<br />
+                        @Model.ShippingPhone
+                    </span>
+                    <div class="mt-2 small">
+                        @Model.ShippingAddress
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-muted">Items</span>
+                    <strong>@Model.OrderItems.Sum(x => x.Quantity)</strong>
+                </div>
+
+                <div class="d-flex justify-content-between fs-5">
+                    <span>Total</span>
+                    <strong>@Model.TotalAmount.ToString("C")</strong>
+                </div>
+
+                <a href="@Url.Action("Index", "Orders")"
+                   class="btn btn-outline-dark rounded-pill w-100 mt-4">
+                    Back to Orders
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>

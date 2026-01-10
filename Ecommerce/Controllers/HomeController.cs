@@ -11,8 +11,19 @@ public class HomeController(EcommerceDbContext dbcon,ILogger<HomeController> log
     // GET
     public IActionResult Index()
     {
-        return View();
+        var products = dbcon.Products
+            .OrderByDescending(p => p.Id)
+            .Take(8)  
+            .ToList();
+
+        var model = new HomeViewModel
+        {
+            FeaturedProducts = products
+        };
+
+        return View(model);
     }
+
     //login  method
     [HttpPost]
     public async Task<IActionResult> Login(string username, string password)

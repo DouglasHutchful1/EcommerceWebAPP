@@ -36,7 +36,12 @@ public class CheckoutController(EcommerceDbContext _db,ILogger<CheckoutControlle
             if (!ModelState.IsValid)
                 return View("Index", model);
 
-            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
 
             var cartItems = await _db.CartItems
                 .Include(c => c.Product)
@@ -46,11 +51,15 @@ public class CheckoutController(EcommerceDbContext _db,ILogger<CheckoutControlle
             if (!cartItems.Any())
                 return RedirectToAction("Index", "Cart");
 
-            // Create Order
             var order = new Order
             {
-                UserIdFk = userId,
+                UserIdFk = userId.Value,
+
+                ShippingName = model.FullName,
+                ShippingEmail = model.Email,
+                ShippingPhone = model.Phone,
                 ShippingAddress = model.Address,
+
                 Status = "Pending",
                 OrderDate = DateTime.UtcNow,
                 TotalAmount = cartItems.Sum(x =>
@@ -59,23 +68,20 @@ public class CheckoutController(EcommerceDbContext _db,ILogger<CheckoutControlle
             };
 
             _db.Orders.Add(order);
-            await _db.SaveChangesAsync(); // generates Order.Id
+            await _db.SaveChangesAsync();
 
-            // create OrderItems
             var orderItems = cartItems.Select(item => new OrderItem
             {
                 OrderId = order.Id,
                 ProductIdfk = item.ProductId,
                 Quantity = item.Quantity,
                 UnitPrice = item.Product!.Price
-            }).ToList();
+            });
 
             _db.OrderItems.AddRange(orderItems);
 
-            // Clear cart
             _db.CartItems.RemoveRange(cartItems);
 
-            // Commit transaction
             await _db.SaveChangesAsync();
 
             return RedirectToAction("Success");
@@ -83,10 +89,11 @@ public class CheckoutController(EcommerceDbContext _db,ILogger<CheckoutControlle
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error placing order");
-            ModelState.AddModelError("", "An error occurred while placing your order. Please try again.");
+            ModelState.AddModelError("", "Unable to place order.");
             return View("Index", model);
         }
     }
+
 
 
     public IActionResult Success()

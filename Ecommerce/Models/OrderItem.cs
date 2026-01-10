@@ -8,6 +8,7 @@ namespace Ecommerce.Models
     {
         public int Id { get; set; }
         public int OrderId { get; set; }
+        [Column("ProductIdfk")]
         public int ProductIdfk { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }

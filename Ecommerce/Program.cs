@@ -5,8 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var connStr =
+    Environment.GetEnvironmentVariable("DB_CONNECTION")
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<EcommerceDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connStr));
 
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();

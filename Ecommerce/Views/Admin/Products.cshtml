@@ -267,7 +267,13 @@ function loadProducts() {
         .then(products => {
             const tbody = document.getElementById('productsTableBody');
             tbody.innerHTML = '';
+            
+                 let total = 0,  stock = 0;
+                 
             products.forEach((p, index) => {
+                total++;
+                stock += Number(p.stock || 0);
+
                 tbody.innerHTML += `
                     <tr>
                         <td>${index + 1}</td>
@@ -292,6 +298,9 @@ function loadProducts() {
                 `;
             });
 
+            document.getElementById('totalProducts').textContent = total;
+            document.getElementById('totalStock').textContent = stock;
+
             attachRowEvents(); // Attach edit/delete events
         });
 }
@@ -310,9 +319,8 @@ function attachRowEvents() {
                    document.getElementById('productCategory').value = p.category;
                    document.getElementById('productPrice').value = p.price;
                    document.getElementById('productStock').value = p.stock;
-                   document.getElementById("totalProducts").textContent = products.length;
-                   document.getElementById("totalStock").textContent =
-                       products.reduce((sum, p) => sum + (p.stock || 0), 0);
+                   /*document.getElementById("totalStock").textContent =
+                       p.reduce((sum, p) => sum + (p.stock || 0), 0);*/
 
                
                    const preview = document.getElementById('imagePreview');

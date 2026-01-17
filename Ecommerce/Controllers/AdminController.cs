@@ -359,6 +359,7 @@ public async Task<IActionResult> GetOrders()
                 Username = u.Username,
                 o.ShippingAddress,
                 o.TotalAmount,
+                o.Status,
                 ItemCount = _db.OrderItems.Count(oi => oi.OrderId == o.Id)
             }
         ).ToListAsync();

@@ -380,6 +380,7 @@ public async Task<IActionResult> GetOrderDetails(int id)
     try
     {
         var order = await _db.Orders
+            .AsNoTracking()
             .Where(o => o.Id == id)
             .Select(o => new
             {
@@ -387,12 +388,18 @@ public async Task<IActionResult> GetOrderDetails(int id)
                 OrderDate = o.OrderDate.ToString("yyyy-MM-dd"),
                 o.ShippingAddress,
                 o.TotalAmount,
+                o.Status,
+                Customer = _db.User
+                    .Where(u => u.Id == o.UserIdFk)
+                    .Select(u => (u.Firstname + " " + u.Lastname).Trim())
+                    .FirstOrDefault(),
+
                 Items = o.OrderItems.Select(i => new
                 {
                     i.Id,
-                    i.ProductIdfk,
+                    i.ProductIdfk,         
                     i.Quantity,
-                    i.UnitPrice
+                    i.UnitPrice,
                 }).ToList()
             })
             .FirstOrDefaultAsync();
@@ -404,11 +411,10 @@ public async Task<IActionResult> GetOrderDetails(int id)
     }
     catch (Exception ex)
     {
-        _logger.LogError(ex, "Error Occurred");
+        _logger.LogError(ex, "Error occurred fetching order details for Id {OrderId}", id);
         return StatusCode(500, new { success = false, message = "Unexpected error occurred" });
-    }           
+    }
 }
-
 
 
     // Admin/DeleteOrder
@@ -493,6 +499,13 @@ public async Task<IActionResult> GetOrderDetails(int id)
         }
     }
 
-    
+    //logout 
+    [HttpGet]
+    public  IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Home");
+
+    }
 
 }

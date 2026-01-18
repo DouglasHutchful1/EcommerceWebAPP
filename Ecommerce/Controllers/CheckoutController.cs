@@ -14,6 +14,11 @@ public class CheckoutController(EcommerceDbContext _db,ILogger<CheckoutControlle
     {
         int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
+        if (userId <= 0)
+        {
+            TempData["LoginRequired"] = "Please login to continue to checkout.";
+            return RedirectToAction("Index", "Home");
+        }
         var model = new CheckoutViewModel
         {
             CartItems = await _db.CartItems
@@ -31,6 +36,7 @@ public class CheckoutController(EcommerceDbContext _db,ILogger<CheckoutControlle
     [HttpPost]
     public async Task<IActionResult> PlaceOrder(CheckoutViewModel model)
     {
+        
         try
         {
             if (!ModelState.IsValid)

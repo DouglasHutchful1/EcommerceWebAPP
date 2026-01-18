@@ -11,7 +11,13 @@ public class CartController(EcommerceDbContext _db,ILogger<CartController> _logg
 
 public async Task<IActionResult> Index()
 {
-    int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+    int? userId = HttpContext.Session.GetInt32("UserId") ;
+    
+    if (userId <= 0)
+    {
+        TempData["LoginRequired"] = "Please login to view your cart and checkout.";
+        return RedirectToAction("Index", "Home");
+    }
 
     var model = new CartModel
     {
@@ -30,7 +36,8 @@ public async Task<IActionResult> Index()
     {
         try
         {
-            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return Unauthorized();
 
             var items = await _db.CartItems
                 .Include(c => c.Product)
@@ -65,8 +72,9 @@ public async Task<IActionResult> Index()
     {
         try
         {
-            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
-
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return Unauthorized();
+            
             var existing = await _db.CartItems
                 .FirstOrDefaultAsync(x =>
                     x.UserId == userId &&
@@ -103,7 +111,8 @@ public async Task<IActionResult> Index()
     {
         try
         {
-            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return Unauthorized();
 
         var item = await _db.CartItems
             .FirstOrDefaultAsync(x => x.UserId == userId && x.ProductId == productId);
@@ -129,8 +138,8 @@ public async Task<IActionResult> Index()
     {
         try
         {
-            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
-
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return Unauthorized();
             var item = await _db.CartItems
                 .FirstOrDefaultAsync(x => x.UserId == userId && x.ProductId == productId);
 

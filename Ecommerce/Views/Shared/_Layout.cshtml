@@ -65,7 +65,18 @@ main {
     color: var(--primary);
 }
 
-/* ===== FOOTER FIX ===== */
+.navbar .nav-link.active,
+.navbar .nav-link[aria-current="page"] {
+    background: var(--primary-soft);
+    color: var(--primary) !important;
+    font-weight: 600;
+}
+
+.navbar .nav-link i {
+    color: inherit;
+}
+
+/* ===== FOOTER  ===== */
 footer {
     flex-shrink: 0;
     background: #0f1220;
@@ -205,7 +216,7 @@ footer h5, footer h6 {
 
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a clas s="nav-link active" href="/"><i class="bi bi-house-door me-1"></i>Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/"><i class="bi bi-house-door me-1"></i>Home</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="bi bi-shop me-1"></i>Store</a>
                         <ul class="dropdown-menu">
@@ -287,7 +298,7 @@ footer h5, footer h6 {
                 </div>
             </div>
             <hr class="border-secondary">
-            <div class="text-center small">&copy; 2025 DawgShop — All Rights Reserved</div>
+            <div class="text-center small">&copy; @DateTime.Now.Year DawgShop — All Rights Reserved</div>
         </div>
     </footer>
 
@@ -444,22 +455,48 @@ footer h5, footer h6 {
     <script>
         $(document).ready(function () {
             console.log("jQuery loaded:", typeof jQuery !== 'undefined');
-       window.toggleCart = function () {
+       window.toggleCart = async function () {
            const drawer = document.getElementById("cartDrawer");
            const backdrop = document.getElementById("cartBackdrop");
        
            if (!drawer || !backdrop) return;
+               try {
+                   const res = await fetch("/Home/GetCurrentUser");
+                   const user = await res.json();
        
+                  
+                if (!user || !user.isLoggedIn) {
+                    
+                    if (typeof showToast === "function") {
+                        showToast("info", "Please log in to view your cart.");
+                    }
+
+                    // open login modal
+                    const modalEl = document.getElementById("loginModal");
+                    if (modalEl) {
+                        new bootstrap.Modal(modalEl).show();
+                    }
+                    return; 
+                }
+            } catch (e) {
+                console.error("Login check failed", e);
+                if (typeof showToast === "function") {
+                    showToast("error", "Unable to verify login. Please try again.");
+                }
+                return;
+            }
+           
            drawer.classList.toggle("open");
            backdrop.classList.toggle("show");
        
            if (drawer.classList.contains("open")) {
                loadCart();
            }
-       }
+           };
+       
 
                         
-                        async function loadCart() {
+                        window.loadCart = async function () {
                             const res = await fetch("/Cart/Get");
                             const data = await res.json();
                         
@@ -778,6 +815,45 @@ footer h5, footer h6 {
             });
         });
     </script>
+    
+    @if (TempData["LoginRequired"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const modalEl = document.getElementById("loginModal");
+                if (modalEl) {
+                    const m = new bootstrap.Modal(modalEl);
+                    m.show();
+                }
+            });
+        </script>
+    }
+    
+    @if (TempData["LoginRequired"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+    
+                const modalEl = document.getElementById("loginModal");
+                if (modalEl) {
+                    new bootstrap.Modal(modalEl).show();
+                }
+    
+                const toastEl = document.getElementById("infoToast");
+                const msgEl = document.getElementById("infoToastMessage");
+    
+                if (toastEl && msgEl) {
+                    msgEl.textContent = "Please log in to continue to checkout.";
+                    new bootstrap.Toast(toastEl, {
+                        autohide: true,
+                        delay: 4500
+                    }).show();
+                }
+            });
+        </script>
+    }
+
+
 <!-- CART BACKDROP -->
 <div id="cartBackdrop" class="cart-backdrop" onclick="toggleCart()"></div>
 
@@ -800,6 +876,23 @@ footer h5, footer h6 {
         </a>
     </div>
 </div>
+
+@if (TempData["LoginRequired"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof showToast === "function") {
+                showToast("info", "@TempData["LoginRequired"]");
+            }
+            const modalEl = document.getElementById("loginModal");
+            if (modalEl) {
+                const m = new bootstrap.Modal(modalEl);
+                m.show();
+            }
+        });
+    </script>
+}
+
 
 </body>
 </html>

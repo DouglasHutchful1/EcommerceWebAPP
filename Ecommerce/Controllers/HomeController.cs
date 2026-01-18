@@ -127,6 +127,7 @@ public class HomeController(EcommerceDbContext dbcon,ILogger<HomeController> log
     public async Task<IActionResult> Logout()
     {
         HttpContext.Session.Clear();
+        Redirect($"Home/Index/");
         return Ok(new { message = "Logged Out" });
     }
 }

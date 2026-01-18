@@ -70,8 +70,7 @@ namespace Ecommerce.Controllers
                 }
 
                 var user = await db.User.FirstOrDefaultAsync(u => u.Id == userId.Value);
-                if (user == null)
-                    return Unauthorized();
+                
 
                 user.Firstname = model.Firstname.Trim();
                 user.Lastname = model.Lastname.Trim();

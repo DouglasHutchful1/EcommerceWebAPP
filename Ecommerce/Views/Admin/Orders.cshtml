@@ -175,6 +175,11 @@
                             <label class="form-label">Total Amount</label>
                             <input type="text" id="totalAmount" class="form-control" readonly>
                         </div>
+                        
+                           <div class="col-md-6">
+                               <label class="form-label">Shipping Address</label>
+                               <input type="text" id="shippingAddress" class="form-control" >
+                               </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Status</label>
@@ -266,9 +271,10 @@ function attachOrderEvents() {
                 .then(r => r.json())
                 .then(o => {
                     document.getElementById('orderId').value = o.id;
-                    document.getElementById('customerName').value = o.customerName;
+                    document.getElementById('customerName').value = o.customer;
                     document.getElementById('orderNumber').value = o.orderNumber;
                     document.getElementById('totalAmount').value = o.totalAmount;
+                    document.getElementById('shippingAddress').value = o.shippingAddress;
                     document.getElementById('status').value = o.status;
 
                     bootstrap.Modal.getOrCreateInstance(

@@ -75,9 +75,12 @@
                     <div class="card-body text-center">
                         <h5 class="card-title">@product.Name</h5>
                         <p class="card-text fw-semibold text-muted">@product.Price.ToString("C")</p>
-                        <a href="/Cart/Add/@product.Id" class="btn btn-outline-dark rounded-circle d-flex align-items-center justify-content-center shadow-sm hover-scale" style="width: 40px; height: 40px;">
+                        <button type="button"
+                                class="btn btn-outline-dark rounded-circle d-flex align-items-center justify-content-center shadow-sm hover-scale add-home-cart-btn"
+                                style="width: 40px; height: 40px;"
+                                data-id="@product.Id">
                             <i class="bi bi-cart-plus-fill"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -117,3 +120,39 @@
         animation: fadeInUp 1s ease;
     }
 </style>
+<script>
+document.addEventListener("click", async (e) => {
+    const btn = e.target.closest(".add-home-cart-btn");
+    if (!btn) return;
+
+    e.preventDefault();
+
+    const payload = {
+        productId: parseInt(btn.dataset.id),
+        quantity: 1
+    };
+
+    const res = await fetch("/Cart/Add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+        if (typeof showToast === "function") showToast("success", "Added to cart");
+
+        if (typeof window.loadCart === "function") await window.loadCart();
+        if (typeof window.toggleCart === "function") await window.toggleCart();
+        return;
+    }
+
+    if (res.status === 401) {
+        if (typeof showToast === "function") showToast("info", "Please log in to add items to cart.");
+        const modalEl = document.getElementById("loginModal");
+        if (modalEl) new bootstrap.Modal(modalEl).show();
+        return;
+    }
+
+    if (typeof showToast === "function") showToast("error", "Failed to add to cart.");
+});
+</script>

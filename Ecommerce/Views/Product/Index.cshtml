@@ -213,62 +213,84 @@ async function loadProducts() {
     const grid = document.getElementById("productGrid");
     grid.innerHTML = "";
 
-   products.forEach(p => {
-       grid.innerHTML += `
-       <div class="col-sm-6 col-md-4 col-lg-3 fade-up">
-           <div class="product-card">
-               <div class="image-wrapper">
-                   <img src="${p.image}" alt="${p.name}">
-                   <span class="badge-new">New</span>
-               </div>
-   
-               <div class="card-body text-center">
-                   <div class="product-title">${p.name}</div>
-                   <div class="product-category">${p.category}</div>
-   
-                   <div class="d-flex justify-content-between align-items-center mt-3">
-                       <span class="product-price">$${p.price.toFixed(2)}</span>
-   
-                       <button 
-                           class="add-cart-btn"
-                           data-id="${p.id}">
-                           <i class="bi bi-cart-plus"></i>
-                       </button>
-                   </div>
-               </div>
-           </div>
-       </div>`;
-   });
+    products.forEach(p => {
+        grid.innerHTML += `
+        <div class="col-sm-6 col-md-4 col-lg-3 fade-up">
+            <div class="product-card">
+                <div class="image-wrapper">
+                    <img src="${p.image}" alt="${p.name}">
+                    <span class="badge-new">New</span>
+                </div>
 
+                <div class="card-body text-center">
+                    <div class="product-title">${p.name}</div>
+                    <div class="product-category">${p.category ?? ""}</div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="product-price">$${Number(p.price).toFixed(2)}</span>
+
+                        <button type="button"
+                                class="add-cart-btn"
+                                data-id="${p.id}">
+                            <i class="bi bi-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    });
 }
 
 // filter button
 document.getElementById("filterBtn").addEventListener("click", loadProducts);
 
-document.addEventListener("click", async e => {
+// add to cart
+document.addEventListener("click", async (e) => {
     const btn = e.target.closest(".add-cart-btn");
     if (!btn) return;
+
+    if (btn.dataset.loading === "1") return;
 
     const payload = {
         productId: parseInt(btn.dataset.id),
         quantity: 1
     };
 
-    const res = await fetch("/Cart/Add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-    });
+    try {
+        btn.dataset.loading = "1";
+        btn.disabled = true;
 
-    if (res.ok) {
-        showToast('success', 'Added to cart');
-        loadCart();       
-        toggleCart();       
+        const res = await fetch("/Cart/Add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+            if (typeof showToast === "function") showToast("success", "Added to cart");
+
+            if (typeof window.loadCart === "function") await window.loadCart();
+            if (typeof window.toggleCart === "function") await window.toggleCart();
+            return;
+        }
+
+        if (res.status === 401) {
+            if (typeof showToast === "function") showToast("info", "Please log in to add items to cart.");
+            const modalEl = document.getElementById("loginModal");
+            if (modalEl) new bootstrap.Modal(modalEl).show();
+            return;
+        }
+
+        if (typeof showToast === "function") showToast("error", "Failed to add to cart.");
+    } catch (err) {
+        if (typeof showToast === "function") showToast("error", "Network error. Please try again.");
+    } finally {
+        btn.dataset.loading = "0";
+        btn.disabled = false;
     }
 });
 
-
-// auto-load on page load
 document.addEventListener("DOMContentLoaded", loadProducts);
 </script>
+
 

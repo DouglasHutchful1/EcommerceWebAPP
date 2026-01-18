@@ -1,0 +1,130 @@
+@model Ecommerce.Models.ProfileViewModel
+
+@{
+    ViewData["Title"] = "My Profile";
+    Layout = "_Layout";
+}
+
+<div class="container my-5" style="max-width: 980px;">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+        <div>
+            <h2 class="mb-1 fw-bold">My Profile</h2>
+            <div class="text-muted">Manage your account details</div>
+        </div>
+        <a href="/Orders" class="btn btn-outline-dark rounded-pill">
+            <i class="bi bi-bag-check me-1"></i> My Orders
+        </a>
+    </div>
+
+    @if (TempData["ProfileSuccess"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                if (typeof showToast === "function") showToast("success", "@TempData["ProfileSuccess"]");
+            });
+        </script>
+    }
+
+    @if (TempData["ProfileError"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                if (typeof showToast === "function") showToast("error", "@TempData["ProfileError"]");
+            });
+        </script>
+    }
+
+    <div class="row g-4">
+        <!-- Left -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center"
+                             style="width:52px;height:52px;background:rgba(13,110,253,.12);">
+                            <i class="bi bi-person-fill text-primary fs-4"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold">@Model.Firstname @Model.Lastname</div>
+                            <div class="text-muted small">@Model.Email</div>
+                        </div>
+                    </div>
+
+                    <div class="small text-muted mb-1">Username</div>
+                    <div class="fw-semibold mb-3">@Model.Username</div>
+
+                    <div class="small text-muted mb-1">Account Status</div>
+                    <div class="fw-semibold mb-3">
+                        @if (Model.Active)
+                        {
+                            <span class="badge rounded-pill bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge rounded-pill bg-secondary">Inactive</span>
+                        }
+                    </div>
+
+                    <div class="small text-muted mb-1">Member Since</div>
+                    <div class="fw-semibold">
+                        @(Model.CreationDate.HasValue
+                            ? Model.CreationDate.Value.ToLocalTime().ToString("dd MMM yyyy")
+                            : "—")
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4 p-md-5">
+                    <h5 class="fw-bold mb-4">Edit Name</h5>
+
+                    <form asp-action="Update" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Firstname</label>
+                                <input name="Firstname" value="@Model.Firstname"
+                                       class="form-control form-control-lg rounded-4" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Lastname</label>
+                                <input name="Lastname" value="@Model.Lastname"
+                                       class="form-control form-control-lg rounded-4" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Email (readonly)</label>
+                                <input value="@Model.Email"
+                                       class="form-control form-control-lg rounded-4" readonly />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Username (Can't be changed)</label>
+                                <input value="@Model.Username"
+                                       class="form-control form-control-lg rounded-4" readonly />
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill px-4">
+                                <i class="bi bi-check2-circle me-1"></i> Save Changes
+                            </button>
+                            <a href="/" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
+                                Cancel
+                            </a>
+                        </div>
+                    </form>
+
+                    <hr class="my-4" />
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
